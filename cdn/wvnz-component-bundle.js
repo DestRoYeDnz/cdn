@@ -351,19 +351,19 @@ const t = globalThis, e = t.ShadowRoot && (void 0 === t.ShadyCSS || t.ShadyCSS.n
     static autoIdSeq = 0; static properties = { variant: { type: String, attribute: "variant" }, size: { type: String, attribute: "size" }, colorScheme: { type: String, attribute: "colorscheme" }, background: { type: Object, attribute: !1 }, backgroundType: { type: String, attribute: "background-type" }, backgroundDesktopImage: { type: String, attribute: "background-desktop-image" }, backgroundMobileImage: { type: String, attribute: "background-mobile-image" }, backgroundColor: { type: String, attribute: "background-color" }, heading: { type: String, attribute: "heading" }, subheading: { type: String, attribute: "subheading" }, cta1: { type: String, attribute: "cta1" }, cta2: { type: String, attribute: "cta2" }, formEmbed: { type: Object, attribute: !1 }, className: { type: String, attribute: "classname" } }; constructor() { super() } firstUpdated() { if (this.id || (this.id = "wvnz-hero-" + ++this.constructor.autoIdSeq), !this.shadowRoot.querySelector("link[data-wvnz-components-css]")) { const t = document.createElement("link"); t.rel = "stylesheet", t.setAttribute("data-wvnz-components-css", ""), t.href = window.WVNZ_CSS_URL || new URL("/dist/wvnz-components.css", window.location.origin).href, this.shadowRoot.appendChild(t) } } get colorSchemes() { return { white: { background: "bg-white", text: "text-[#111222]", accent: "text-[#ff5515]" }, fawn: { background: "bg-[#f8f9fa]", text: "text-[#111222]", accent: "text-[#ff5515]" }, orange: { background: "bg-[#ff5515]", text: "text-white", accent: "text-[#111222]" } } } get currentScheme() { return this.colorSchemes?.[this.colorScheme] } get sizeClasses() { return { auto: "py-16", small: "min-h-[400px] py-16", medium: "min-h-[600px] py-24", large: "min-h-[800px] py-32" } } renderBackground() {
         const t = this.backgroundType || this.background?.type; if ("image" === t) {
             const t = this.backgroundDesktopImage || this.background?.desktopImage; return t ? M`<div class="absolute inset-0 z-0">
-        <wvnz-responsive-image .desktopSrc=${t} .mobileSrc=${this.backgroundMobileImage || this.background?.mobileImage || t} alt="Hero background" class="object-cover w-full h-full"></wvnz-responsive-image>
+        <wvnz-responsive-image .desktopSrc=${t} .mobileSrc=${this.backgroundMobileImage || this.background?.mobileImage || t} alt="Hero background" class="object-cover w-full h-full" objectFit="cover"></wvnz-responsive-image>
         <div class="absolute inset-0 bg-black/40"></div>
       </div>`: ""
         } if ("color" === t) { const t = this.backgroundColor || this.background?.color; return t ? M`<div class="absolute inset-0 z-0" style="${Object.entries({ backgroundColor: t }).filter(([, t]) => null != t && "" !== t).map(([t, e]) => (t => (t + "").replace(/([a-z0-9])([A-Z])/g, "$1-$2").replace(/_/g, "-").toLowerCase())(t) + ": " + e).join("; ")}"></div>` : "" } return ""
     } renderSplitContent() {
-        return M`<div class="relative z-10 px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
+        const t = "image" === (this.backgroundType || this.background?.type) ? "text-white" : this.currentScheme?.text || ""; return M`<div class="relative z-10 px-4 mx-auto max-w-7xl sm:px-6 lg:px-8 ${t}">
                 <div class="grid grid-cols-1 gap-12 items-center lg:grid-cols-2">
                     <div class="text-center lg:text-left">
-                        ${this.heading ? M`<wvnz-landing-text variant="h1" weight="bold" .color=${"primary"} align="left" class="mb-6">
+                        ${this.heading ? M`<wvnz-landing-text variant="h1" weight="bold" class="mb-6 ${t}">
                                 ${this.heading}
                             </wvnz-landing-text>`: ""}
 
-                        ${this.subheading ? M`<wvnz-landing-text variant="h3" .color=${"orange" === this.colorScheme ? "primary" : "secondary"} align="left" class="mb-4">
+                        ${this.subheading ? M`<wvnz-landing-text variant="h3" class="mb-4 ${t}">
                                 ${this.subheading}
                             </wvnz-landing-text>`: ""}
 
@@ -375,7 +375,7 @@ const t = globalThis, e = t.ShadowRoot && (void 0 === t.ShadyCSS || t.ShadyCSS.n
                         </div>
                     </div>
 
-                    <div class="flex justify-center lg:justify-end">
+                    <div class="flex justify-center lg:justify-end ${t}">
                         <slot name="right"></slot>
                         ${this.formEmbed ? M`<div class="p-6 w-full max-w-md rounded-lg backdrop-blur-sm bg-white/90">
                                 ${lt(this.formEmbed?.formEmbedCode || "")}
@@ -383,10 +383,10 @@ const t = globalThis, e = t.ShadowRoot && (void 0 === t.ShadyCSS || t.ShadyCSS.n
                     </div>
                 </div>
             </div>`} renderContent() {
-        return M`<div class="relative z-10 px-4 mx-auto max-w-6xl sm:px-6 lg:px-8">
+        const t = "image" === (this.backgroundType || this.background?.type) ? "text-white" : this.currentScheme?.text || ""; return M`<div class="relative z-10 px-4 mx-auto max-w-6xl sm:px-6 lg:px-8 ${t}">
         <div class="text-center">
-          ${this.heading ? M`<wvnz-landing-text variant="h1" weight="bold" .color=${"primary"} align="center" class="mb-6">${this.heading}</wvnz-landing-text>` : ""}
-          ${this.subheading ? M`<wvnz-landing-text variant="h3" .color=${"orange" === this.colorScheme ? "primary" : "secondary"} align="center" class="mx-auto mb-4 max-w-3xl">${this.subheading}</wvnz-landing-text>` : ""}
+          ${this.heading ? M`<wvnz-landing-text variant="h1" weight="bold" class="mb-6 ${t}">${this.heading}</wvnz-landing-text>` : ""}
+          ${this.subheading ? M`<wvnz-landing-text variant="h3" class="mx-auto mb-4 max-w-3xl ${t}">${this.subheading}</wvnz-landing-text>` : ""}
 
           <div class="mx-auto mb-4 max-w-3xl">
             <slot name="content"></slot>
